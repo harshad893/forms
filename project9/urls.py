@@ -19,4 +19,7 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('insert_topic/',views.insert_topic,name='insert_topic'),
+    path('insert_webpage/',views.insert_webpage,name='insert_webpage'),
+    path('select_topic/',views.select_topic,name='select_topic'),
+    path('delete_webpage/',views.delete_webpage,name='delete_webpage'),
 ]

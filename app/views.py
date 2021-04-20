@@ -10,3 +10,34 @@ def insert_topic(request):
         t.save()
         return HttpResponse('Data inserted SUccessfully')
     return render(request,'insert_topic.html')
+
+def insert_webpage(request):
+    if request.method=='POST':
+        topicname=request.POST['topic']
+        name=request.POST.get('name')
+        url=request.POST['url']
+        t=Topic.objects.get_or_create(topic_name=topicname)[0]
+        t.save()
+        w=Webpage.objects.get_or_create(topic_name=t,name=name,url=url)[0]
+        w.save()
+        return HttpResponse('webpage is Creted Success Fully')
+    return render(request,'insert_webpage.html')
+
+def select_topic(request):
+    topics=Topic.objects.all()
+    if request.method=='POST':
+        topicname=request.POST['topic']
+        
+        webpages=Webpage.objects.filter(topic_name=topicname)
+        d={'webpages':webpages}
+        return render(request,'display_webpage.html',context=d)
+    
+    return render(request,'select_topic.html',context={'topics':topics})
+
+def delete_webpage(request):
+    if request.method=='POST':
+        topicname=request.POST['topic']
+        Webpage.objects.filter(topic_name=topicname).delete()
+        webpages=Webpage.objects.all()
+        d={'webpages':webpages}
+        return render(request,'display_webpage.html',context=d)
